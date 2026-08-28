@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Pulse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="page-shell header-content">
+      <div class="brand-lockup">
+        <p class="eyebrow">Contributor operations</p>
+        <h1>Project Pulse</h1>
+      </div>
+      <p class="header-note">A calm, shared view of what the team is moving forward.</p>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="dashboard-intro" aria-labelledby="dashboard-heading">
+      <div>
+        <p class="eyebrow">Team overview</p>
+        <h2 id="dashboard-heading">Keep momentum visible</h2>
+      </div>
+      <p class="intro-copy">Check in on ownership, activity, and priority before choosing where to contribute next.</p>
+    </section>
+
+    <section class="dashboard" aria-label="Project status dashboard">
+      <div id="loading-state" class="state-card" role="status">
+        <span class="state-icon" aria-hidden="true">...</span>
+        <h2>Loading projects</h2>
+        <p>Gathering the latest team pulse.</p>
+      </div>
+      <div id="error-state" class="state-card is-hidden" role="alert">
+        <span class="state-icon" aria-hidden="true">!</span>
+        <h2>Projects could not be loaded</h2>
+        <p id="error-message">Please refresh and try again.</p>
+      </div>
+      <div id="empty-state" class="state-card is-hidden">
+        <span class="state-icon" aria-hidden="true">—</span>
+        <h2>No projects yet</h2>
+        <p>There are no projects ready to show right now.</p>
+      </div>
+      <div id="project-list" class="project-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const projectList = document.querySelector("#project-list");
+    const loadingState = document.querySelector("#loading-state");
+    const errorState = document.querySelector("#error-state");
+    const emptyState = document.querySelector("#empty-state");
+    const errorMessage = document.querySelector("#error-message");
+
+    function createTextElement(tagName, className, text) {
+      const element = document.createElement(tagName);
+      element.className = className;
+      element.textContent = text;
+      return element;
+    }
+
+    function createProjectCard(project) {
+      const article = document.createElement("article");
+      article.className = "project-card";
+
+      const cardHeader = document.createElement("div");
+      cardHeader.className = "card-header";
+      cardHeader.append(
+        createTextElement("h3", "project-name", project.name),
+        createTextElement("p", "owner", "Owned by " + project.owner)
+      );
+
+      const badges = document.createElement("div");
+      badges.className = "badge-group";
+      badges.append(
+        createTextElement("span", "badge status-badge", "Status: " + project.status),
+        createTextElement("span", "badge priority-badge", "Priority: " + project.priority)
+      );
+
+      const activity = document.createElement("div");
+      activity.className = "activity";
+      activity.append(
+        createTextElement("span", "field-label", "Recent activity"),
+        createTextElement("p", "activity-text", project.recentActivity)
+      );
+
+      article.append(cardHeader, badges, activity);
+      if (project.summary) {
+        article.append(createTextElement("p", "summary", project.summary));
+      }
+      return article;
+    }
+
+    async function loadProjects() {
+      try {
+        const response = await fetch("project-data.json");
+        if (!response.ok) {
+          throw new Error("The project data returned an unexpected response.");
+        }
+        const data = await response.json();
+        if (!data || !Array.isArray(data.projects)) {
+          throw new Error("The project data is missing its projects list.");
+        }
+
+        loadingState.classList.add("is-hidden");
+        if (data.projects.length === 0) {
+          emptyState.classList.remove("is-hidden");
+          return;
+        }
+        data.projects.forEach((project) => projectList.append(createProjectCard(project)));
+      } catch (error) {
+        loadingState.classList.add("is-hidden");
+        errorMessage.textContent = error.message;
+        errorState.classList.remove("is-hidden");
+      }
+    }
+
+    loadProjects();
+  </script>
+</body>
+</html>

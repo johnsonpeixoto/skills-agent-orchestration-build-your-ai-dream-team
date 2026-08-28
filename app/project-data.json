@@ -1,0 +1,52 @@
+{
+  "projects": [
+    {
+      "name": "Contributor Welcome Hub",
+      "owner": "Mona Patel",
+      "status": "On track",
+      "recentActivity": "Welcome flow copy is ready for team review.",
+      "priority": "High",
+      "summary": "Make a new contributor's first week feel clear and supported."
+    },
+    {
+      "name": "Release Notes Refresh",
+      "owner": "Jordan Lee",
+      "status": "In progress",
+      "recentActivity": "The new changelog template landed in staging yesterday.",
+      "priority": "Medium",
+      "summary": "Give every release a concise, useful story for the people using it."
+    },
+    {
+      "name": "Accessibility Sweep",
+      "owner": "Sam Rivera",
+      "status": "Needs attention",
+      "recentActivity": "Keyboard navigation review found three follow-up items.",
+      "priority": "High",
+      "summary": "Remove small barriers so more teammates can participate confidently."
+    },
+    {
+      "name": "Team Metrics",
+      "owner": "Alex Chen",
+      "status": "On track",
+      "recentActivity": "The first contributor feedback snapshot is available.",
+      "priority": "Low",
+      "summary": "Turn team signals into lightweight prompts for better decisions."
+    },
+    {
+      "name": "Docs Navigation",
+      "owner": "Priya Shah",
+      "status": "Planning",
+      "recentActivity": "Information architecture options are being compared this week.",
+      "priority": "Medium",
+      "summary": "Help contributors find the right answer without needing a map."
+    },
+    {
+      "name": "Build Health",
+      "owner": "Diego Santos",
+      "status": "In progress",
+      "recentActivity": "CI duration dropped by 18% after the latest cleanup.",
+      "priority": "High",
+      "summary": "Keep the feedback loop quick and dependable for every change."
+    }
+  ]
+}
